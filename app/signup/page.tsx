@@ -1,8 +1,9 @@
 
+'use client'
 import { ChangeEvent, FormEvent, useState } from "react";
 import Image from "next/image";
 import Logo from "/app/asset/logo.png";
-import Input from "./Form/Input";
+import Input from "../Components/Form/Input";
 import { CiMail } from "react-icons/ci";
 import { HiLockClosed } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
@@ -10,8 +11,9 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/router";
 
-export default function SignIn() {
+export default function SignUp() {
   //  const router = useRouter(); 
+  
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -55,7 +57,7 @@ export default function SignIn() {
         redirect('/')
       // router.push("/home");
     }
-    return redirect('/')
+    redirect('/')
   };
 
   return (
@@ -67,9 +69,9 @@ export default function SignIn() {
         <form onSubmit={handleSubmit}>
           <div className="sm:bg-secondary-foreground text-destructive sm:p-10">
             <div className="pb-4">
-              <h1 className="text-bold text-2xl">Login</h1>
+              <h1 className="text-bold text-2xl">Create account</h1>
               <p className="text-border">
-                Add your details below to get back into the app
+              Let’s get you started sharing your links!
               </p>
             </div>
 
@@ -86,18 +88,30 @@ export default function SignIn() {
             />
             
             <Input
-              label="Password"
+              label="Create password"
               type="password"
               onChange={handleChange}
               prefix={<HiLockClosed />}
-              placeholder="Enter your password"
+              placeholder="At least 8 characters"
               value={password}
               id="password"
               className={` ${errors.password ? 'border-red-500' : 'border-foreground'}`}
               suffix={errors.password && <p className="text-red-500">Please check again</p>}
             />
-            <Button type="submit" className="w-full hover:bg-primary-foreground text-white py-4">Login</Button>
-            <p className="py-4 text-center">Don’t have an account? <Link href='/signup' className="text-primary">Create account</Link> </p>
+               <Input
+              label="Confirm password"
+              type="password"
+              onChange={handleChange}
+              prefix={<HiLockClosed />}
+              placeholder="At least 8 characters"
+              value={password}
+              id="password"
+              className={` ${errors.password ? 'border-red-500' : 'border-foreground'}`}
+              suffix={errors.password && <p className="text-red-500">Please check again</p>}
+            />
+            <p className="py-4">Password must contain at least 8 characters</p>
+            <Button type="submit" className="w-full hover:bg-primary-foreground text-white py-4">Create new account</Button>
+            <p className="py-4 text-center">Already have an account?  <Link href='/' className="text-primary">Login</Link> </p>
           </div>
         </form>
       </div>
