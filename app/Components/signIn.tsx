@@ -1,25 +1,13 @@
-"use client";
-// import Image from "next/image";
-// import Logo from "../app/asset/logo.png";
- import Input from "./Components/Form/Input";
-// import { useState } from "react";
-// import Log from "./asset/icon";
-// import { CiMail } from "react-icons/ci";
-// import { HiLockClosed } from "react-icons/hi";
-// import { Button } from "@/components/ui/button";
-// import Link from "next/link";
-// import SignIn from "./Components/signIn";
-
 import { ChangeEvent, FormEvent, useState } from "react";
 import Image from "next/image";
 import Logo from "/app/asset/logo.png";
-//import Input from "./Form/Input";
+import Input from "./Form/Input";
 import { CiMail } from "react-icons/ci";
 import { HiLockClosed } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 export default function SignIn() {
   const router = useRouter(); 
@@ -61,8 +49,9 @@ export default function SignIn() {
         name: "",
         password: "",
       });
-        router.push("/home");
-      //  redirect('/home')
+      //  Router.push("/home");
+      //  redirect('/about')
+      router.push("/home");
     }
   };
 
@@ -112,4 +101,3 @@ export default function SignIn() {
     </div>
   );
 }
-
