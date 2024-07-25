@@ -10,7 +10,7 @@ import { redirect } from "next/navigation";
 import { useRouter } from "next/router";
 
 export default function SignIn() {
-  const router = useRouter(); 
+  // const router = useRouter(); 
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -51,7 +51,7 @@ export default function SignIn() {
       });
       //  Router.push("/home");
       //  redirect('/about')
-      router.push("/home");
+      // router.push("/home");
     }
   };
 
