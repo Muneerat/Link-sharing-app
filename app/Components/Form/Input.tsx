@@ -2,7 +2,7 @@
 import React, { ChangeEvent, FC, useState } from "react";
 
 interface InputComponentProps {
-  label: string;
+  label?: any;
   prefix: React.ReactNode;
   suffix?: React.ReactNode;
   placeholder: string;    
@@ -32,6 +32,7 @@ const Input: FC<InputComponentProps> = ({ label, prefix,suffix,placeholder,id,cl
         placeholder={placeholder}
         value={value}
         id={id}
+        min={2}
         {...props}
       />
       {suffix &&  <div className="inline-flex absolute right-2 inset-y-8 text-base-600">

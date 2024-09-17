@@ -16,8 +16,8 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
 
   const [errors, setErrors] = useState({
-    name: "",
-    password: "",
+    name: "" as string,
+    password: "" as any,
   });
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +34,7 @@ export default function SignIn() {
       password: "",
     };
 
-    if (!name.trim()) {
+    if (!name.trim() ) {
       newErrors.name = "Name is required";
     }
 
@@ -60,21 +60,21 @@ export default function SignIn() {
 
   return (
     <div className="bg-background flex justify-center items-center align-middle my-auto h-screen">
-      <div className="lg:w-1/4 md:2/6 w-5/6">
+      <div className="lg:w-[35%] md:w-3/6 w-5/6 max-w-3xl">
         <div className="flex md:justify-center my-10">
           <Image src={Logo} alt="Logo" />
         </div>
         <form onSubmit={handleSubmit}>
           <div className="sm:bg-secondary-foreground text-destructive sm:p-10">
             <div className="pb-4">
-              <h1 className="text-bold text-2xl">Login</h1>
+              <h1 className="font-bold text-2xl">Login</h1>
               <p className="text-border">
                 Add your details below to get back into the app
               </p>
             </div>
 
             <Input
-              label="Email address"
+             label={errors.name ? <p className="text-red-500">Email address</p> : <p>Email address</p>}
               onChange={handleChange}
               prefix={<CiMail />}
               placeholder="e.g. alex@email.com"
@@ -86,7 +86,7 @@ export default function SignIn() {
             />
             
             <Input
-              label="Password"
+              label={errors.password ? <p className="text-red-500">Password</p> : <p>Password</p>}
               type="password"
               onChange={handleChange}
               prefix={<HiLockClosed />}
@@ -97,7 +97,7 @@ export default function SignIn() {
               suffix={errors.password && <p className="text-red-500">Please check again</p>}
             />
             <Button type="submit" className="w-full hover:bg-primary-foreground text-white py-4">Login</Button>
-            <p className="py-4 text-center">Don’t have an account? <Link href='/signup' className="text-primary">Create account</Link> </p>
+            <p className="py-4 text-center">Don’t have an account? <Link href='/auth/signup' className="text-primary">Create account</Link> </p>
           </div>
         </form>
       </div>
