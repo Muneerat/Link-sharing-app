@@ -1,4 +1,3 @@
-
 'use client'
 import { ChangeEvent, FormEvent, useState } from "react";
 import Image from "next/image";
@@ -8,11 +7,10 @@ import { CiMail } from "react-icons/ci";
 import { HiLockClosed } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation"; 
 
 export default function SignUp() {
-  //  const router = useRouter(); 
+  const router = useRouter();  
   
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -33,7 +31,7 @@ export default function SignUp() {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    // redirect('/signup')
+
     const newErrors = {
       name: "",
       password: "",
@@ -44,30 +42,30 @@ export default function SignUp() {
       newErrors.name = "Name is required";
     }
 
-    if (!password.trim() && !confirmPassword.trim()) {
+    if (!password.trim()) {
       newErrors.password = "Password is required";
-      
-
     }
 
-    if(newErrors.password !== newErrors.confirmPassword){
-      newErrors.confirmPassword = "Password is wrong";
+    if (password !== confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
     }
-    if (newErrors.name || newErrors.password) {
+
+    if (newErrors.name || newErrors.password || newErrors.confirmPassword) {
       setErrors(newErrors);
     } else  {
+      // Clear form
       setName("");
       setPassword("");
+      setConfirmPassword("");
       setErrors({
         name: "",
         password: "",
         confirmPassword: ""
       });
-      //  Router.push("/home");
-        redirect('/')
-      // router.push("/home");
+      
+      // Navigate to home page on successful sign-up
+      router.push('/home');
     }
-    redirect('/')
   };
 
   return (
@@ -94,7 +92,7 @@ export default function SignUp() {
               id="name"
               type="email"
               className={` ${errors.name ? 'border-red-500' : 'border-foreground'}`}
-              suffix={errors.name && <p className="text-red-500">Can’t be empty</p>}
+              suffix={errors.name }
             />
             
             <Input
@@ -108,7 +106,8 @@ export default function SignUp() {
               className={` ${errors.password ? 'border-red-500' : 'border-foreground'}`}
               suffix={errors.password && <p className="text-red-500">Please check again</p>}
             />
-               <Input
+            
+            <Input
               label="Confirm password"
               type="password"
               onChange={handleChange}
@@ -116,11 +115,13 @@ export default function SignUp() {
               placeholder="At least 8 characters"
               value={confirmPassword}
               id="confirmPassword"
-              suffix={errors.confirmPassword && <p className="text-red-500">Please check again</p>}
+              suffix={errors.confirmPassword && <p className="text-red-500 text-sm">Passwords do not match</p>}
             />
-            <p className="py-4">Password must contain at least 8 characters</p>
+            
+            <p className="pb-3 pt-2 text-gray-500">Password must contain at least 8 characters</p>
+            
             <Button type="submit" className="w-full hover:bg-primary-foreground text-white py-4">Create new account</Button>
-            <p className="py-4 text-center">Already have an account?  <Link href='/' className="text-primary">Login</Link> </p>
+            <p className="py-4 text-center block">Already have an account?  <Link href='/' className="text-primary">Login</Link> </p>
           </div>
         </form>
       </div>
