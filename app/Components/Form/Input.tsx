@@ -19,14 +19,14 @@ const Input: FC<InputComponentProps> = ({ label, prefix,suffix,placeholder,id,cl
   };
 
   return (
-    <div className="flex flex-col my-5 relative">
-      <div className="inline-flex absolute left-2 inset-y-8 text-base-600 p-2 ">
+    <div className="flex flex-col my-5 relative  md:text-base text-xs ">
+      <div className="inline-flex absolute left-2 md:inset-y-10 inset-y-7 text-base-600">
         {prefix}
       </div>
      
       <label>{label}</label>
       <input
-        className={`border-2 border-foreground outline-none -md rounded-lg p-2 pl-10 w-full focus:border-primary ${className}`}
+        className={`border-2 border-foreground outline-none rounded-lg p-2 md:pl-10 pl-6 w-full focus:border-primary ${className}`}
         type={type}
         onChange={handleChange}
         placeholder={placeholder}
@@ -34,8 +34,9 @@ const Input: FC<InputComponentProps> = ({ label, prefix,suffix,placeholder,id,cl
         id={id}
         min={2}
         {...props}
+        
       />
-      {suffix &&  <div className="inline-flex absolute right-2 inset-y-8 text-base-600">
+      {suffix &&  <div className="md:inline-flex absolute right-2 md:inset-y-10 inset-y-7 text-base-600 md:text-base text-xs ">
                 {suffix}
             </div>}
     </div>

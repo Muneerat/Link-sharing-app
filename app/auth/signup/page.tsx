@@ -8,6 +8,7 @@ import { HiLockClosed } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation"; 
+import { ErrorMessage } from "@/app/Components/error";
 
 export default function SignUp() {
   const router = useRouter();  
@@ -39,11 +40,11 @@ export default function SignUp() {
     };
 
     if (!name.trim()) {
-      newErrors.name = "Name is required";
+      newErrors.name = "Can’t be empty";
     }
 
     if (!password.trim()) {
-      newErrors.password = "Password is required";
+      newErrors.password = "Please check again";
     }
 
     if (password !== confirmPassword) {
@@ -70,7 +71,7 @@ export default function SignUp() {
 
   return (
     <div className="bg-background flex justify-center items-center align-middle my-auto h-screen">
-      <div className="lg:w-[35%] md:w-3/6 w-5/6 max-w-3xl">
+      <div className="lg:w-[35%] md:w-3/6 sm:w-4/6 w-full m-5  max-w-3xl">
         <div className="flex md:justify-center my-10">
           <Image src={Logo} alt="Logo" />
         </div>
@@ -84,7 +85,7 @@ export default function SignUp() {
             </div>
 
             <Input
-              label={errors.name ? <p className="text-red-500">Email address</p> : <p>Email address</p>}
+              label={errors.name ? <ErrorMessage errorText='Email address'/> : <p>Email address</p>}
               onChange={handleChange}
               prefix={<CiMail />}
               placeholder="e.g. alex@email.com"
@@ -92,11 +93,11 @@ export default function SignUp() {
               id="name"
               type="email"
               className={` ${errors.name ? 'border-red-500' : 'border-foreground'}`}
-              suffix={errors.name }
+              suffix={<ErrorMessage errorText={errors.name}/>}
             />
             
             <Input
-              label={errors.password ? <p className="text-red-500">Create password</p> : <p>Create password</p>}
+              label={errors.password ? <ErrorMessage errorText='Create password'/> : <p>Create password</p>}
               type="password"
               onChange={handleChange}
               prefix={<HiLockClosed />}
@@ -104,7 +105,7 @@ export default function SignUp() {
               value={password}
               id="password"
               className={` ${errors.password ? 'border-red-500' : 'border-foreground'}`}
-              suffix={errors.password && <p className="text-red-500">Please check again</p>}
+              suffix={<ErrorMessage errorText={errors.password}/>}
             />
             
             <Input
@@ -112,10 +113,11 @@ export default function SignUp() {
               type="password"
               onChange={handleChange}
               prefix={<HiLockClosed />}
-              placeholder="At least 8 characters"
+               placeholder="Re-enter your password"
               value={confirmPassword}
               id="confirmPassword"
-              suffix={errors.confirmPassword && <p className="text-red-500 text-sm">Passwords do not match</p>}
+              suffix={<ErrorMessage errorText={errors.confirmPassword}/>}
+              
             />
             
             <p className="pb-3 pt-2 text-gray-500">Password must contain at least 8 characters</p>

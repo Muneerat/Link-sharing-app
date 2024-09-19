@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/router";
+import { ErrorMessage } from "./error";
 
 export default function SignIn() {
   //  const router = useRouter(); 
@@ -35,11 +36,11 @@ export default function SignIn() {
     };
 
     if (!name.trim() ) {
-      newErrors.name = "Name is required";
+      newErrors.name = "Can’t be empty";
     }
 
     if (!password.trim()) {
-      newErrors.password = "Password is required";
+      newErrors.password = "Please check again";
     }
 
     if (newErrors.name || newErrors.password) {
@@ -74,7 +75,7 @@ export default function SignIn() {
             </div>
 
             <Input
-             label={errors.name ? <p className="text-red-500">Email address</p> : <p>Email address</p>}
+             label={errors.name ? <ErrorMessage errorText='Email address' /> : <p>Email address</p>}
               onChange={handleChange}
               prefix={<CiMail />}
               placeholder="e.g. alex@email.com"
@@ -82,11 +83,11 @@ export default function SignIn() {
               id="name"
               type="email"
               className={` ${errors.name ? 'border-red-500' : 'border-foreground'}`}
-              suffix={errors.name && <p className="text-red-500">Can’t be empty</p>}
+              suffix={errors.name &&  <ErrorMessage errorText={errors.name} /> }
             />
             
             <Input
-              label={errors.password ? <p className="text-red-500">Password</p> : <p>Password</p>}
+              label={errors.password ? <ErrorMessage errorText='Password ' /> : <p>Password</p>}
               type="password"
               onChange={handleChange}
               prefix={<HiLockClosed />}
@@ -94,7 +95,7 @@ export default function SignIn() {
               value={password}
               id="password"
               className={` ${errors.password ? 'border-red-500' : 'border-foreground'}`}
-              suffix={errors.password && <p className="text-red-500">Please check again</p>}
+              suffix={errors.password && <ErrorMessage errorText={errors.password} />}
             />
             <Button type="submit" className="w-full hover:bg-primary-foreground text-white py-4">Login</Button>
             <p className="py-4 text-center">Don’t have an account? <Link href='/auth/signup' className="text-primary">Create account</Link> </p>
