@@ -1,9 +1,16 @@
-import React from "react";
+'use client'
+import React, { useState } from "react";
 import { Phone, HandPhone, DashIcon } from "../asset/icon";
 import { Button } from "@/components/ui/button";
 import Input from "./Form/Input";
+import { SelectInput, SelectOptions } from "./Form/SelectInput";
 
 export const Main = () => {
+  const [name, setName] = useState('')
+  const options = [
+    // { `<ArrowUp /> GitHub`,'YouTube','LinkedIn','Facebook','Frontend Mentor'},
+    {label: 'GitHub'}
+  ]
   return (
     <div className="md:flex gap-7 py-5 w-full">
       <div className="bg-white md:w-2/5 w-full hidden p-10 rounded-md md:flex justify-center items-center">
@@ -45,9 +52,13 @@ export const Main = () => {
                 <Button className="bg-secondary text-destructive font-normal ">Remove</Button>
             </div>
             <div>
-                {/* <Input type="select"/> */}
-                {/* <input type="select" placeholder=''/> */}
-                
+                <SelectInput 
+                        options={options}
+                        placeholder='Select'
+                        value={name}
+                        onChange={setName} 
+                       />
+
             </div>
         </div>
         <div className="flex justify-end ">
