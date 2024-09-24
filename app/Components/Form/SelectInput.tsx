@@ -62,7 +62,7 @@ export const SelectInput = ({
 
   return (
     <div
-      className={`px-4 my-2 py-1 rounded-md hover:cursor-pointer relative max-w-5xl w-full border-foreground bg-white flex justify-between items-center transition-all duration-300 ease-in-out`}
+      className={`px-4 my-2 py-1 rounded-md hover:cursor-pointer relative w-full border-foreground bg-white flex justify-between items-center transition-all duration-300 ease-in-out`}
       role="select"
       onClick={() => setShowOptions(!showOptions)}
       tabIndex={0}
