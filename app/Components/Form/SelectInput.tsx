@@ -16,7 +16,7 @@ export const SelectOptions = ({
 }: SelectOptionsProps) => {
   return (
     <button
-      className={`flex items-center text-border w-full py-2 ${className}`}
+      className={`flex items-center text-border w-full py-2  ${className}`}
       onClick={onClick}
     >
       {icon && <div className="mr-2">{icon}</div>}
@@ -44,7 +44,7 @@ export const SelectInput = ({
   const [selectedOption, setSelectedOption] = useState<{
     label: string;
     icon: React.ReactNode;
-  } | null>(null); // Store both label and icon
+  } | null>(null); 
 
   const handleOptionClick = (option: {
     label: string;
@@ -56,7 +56,7 @@ export const SelectInput = ({
 
   useEffect(() => {
     if (onChange && selectedOption) {
-      onChange(selectedOption.label); // Call onChange with the selected label
+      onChange(selectedOption.label); 
     }
   }, [selectedOption]);
 
@@ -66,6 +66,7 @@ export const SelectInput = ({
       role="select"
       onClick={() => setShowOptions(!showOptions)}
       tabIndex={0}
+      aria-label="select"
     >
       {selectedOption ? (
         <SelectOptions
