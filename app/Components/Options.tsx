@@ -24,7 +24,6 @@ const options = [
     { label: "Twitch", icon: <Twitch /> },
     { label: "Dev.to", icon: <Dev /> },
     { label: "Codewars", icon: <Codewars /> },
-    { label: "Codepen", icon: <CodePen /> },
     { label: "FreeCodeCamp", icon: <FreeCodeCamp /> },
     { label: "GitLab", icon: <GitLab /> },
     { label: "Hashnode", icon: <Hashnode /> },

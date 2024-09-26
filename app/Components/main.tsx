@@ -1,6 +1,37 @@
 "use client";
 import React, { useState } from "react";
-import { Phone, HandPhone, DashIcon, LinkIcon } from "../asset/icon";
+import {
+  Phone,
+  HandPhone,
+  DashIcon,
+  LinkIcon,
+  GitHub,
+  Frontend,
+  Twitter,
+  LinkedIn,
+  YouTube,
+  Facebook,
+  Twitch,
+  Dev,
+  Codewars,
+  FreeCodeCamp,
+  GitLab,
+  Hashnode,
+  Stack,
+  GitHubWhite,
+  FrontendWhite,
+  TwitterWhite,
+  LinkedInWhite,
+  YouTubeWhite,
+  FacebookWhite,
+  TwitchWhite,
+  DevWhite,
+  CodewarsWhite,
+  FreeCodeCampWhite,
+  GitLabWhite,
+  HashnodeWhite,
+  StackWhite,
+} from "../asset/icon";
 import { Button } from "@/components/ui/button";
 import Input from "./Form/Input";
 import { SelectInput, SelectOptions } from "./Form/SelectInput";
@@ -15,7 +46,7 @@ import { log } from "console";
 export const Main = () => {
   const [name, setName] = useState("");
   const [showLinks, setShowLInks] = useState(false);
-  const [links, setLinks] =useState<{ platform: string; url: string }[]>([]);
+  const [links, setLinks] = useState<{ platform: string; url: string }[]>([]);
 
   //Add links
   const handleAddLinks = () => {
@@ -23,8 +54,27 @@ export const Main = () => {
     setShowLInks(true);
   };
 
-  console.log(links.length);
-  // console.log((links.platform).length);
+  const getPlatformData = (platform: string) => {
+    const platformColors: {
+      [key: string]: { color: string; icon: React.ReactNode };
+    } = {
+      GitHub: { color: "bg-black", icon: <GitHubWhite /> },
+      "Frontend Mentor": { color: "bg-white", icon: <Frontend /> },
+      Twitter: { color: "bg-black", icon: <TwitterWhite /> },
+      LinkedIn: { color: "bg-blue-700", icon: <LinkedInWhite /> },
+      YouTube: { color: "bg-red-600", icon: <YouTubeWhite /> },
+      Facebook: { color: "bg-blue-600", icon: <FacebookWhite /> },
+      Twitch: { color: "bg-purple-600", icon: <TwitchWhite /> },
+      "Dev.to": { color: "bg-black", icon: <DevWhite /> },
+      Codewars: { color: "bg-[#8a1a50]", icon: <CodewarsWhite /> },
+      FreeCodeCamp: { color: "bg-[#302267]", icon: <FreeCodeCampWhite /> },
+      GitLab: { color: "bg-[#eb4925]", icon: <GitLabWhite /> },
+      Hashnode: { color: "bg-[#0330d1]", icon: <HashnodeWhite /> },
+      "Stack Overflow": { color: "bg-[#ec7100]", icon: <StackWhite /> },
+    };
+
+    return platformColors[platform] || { color: "bg-gray-300", icon: null };
+  };
 
   // const handleRemoveLinks = (index) => {
   //   setLinks(links.filter((_, i) => i!== index))
@@ -63,23 +113,27 @@ export const Main = () => {
 
   return (
     <div className="md:flex gap-7 py-2 w-full">
-      <div className="bg-white md:w-2/5 w-full hidden p-10 rounded-md md:flex justify-center items-center relative">
+      <div className="bg-white md:w-2/5 w-full hidden p-10 rounded-md md:flex justify-center items-center relative z-10">
         <Phone />
-        <ul className="absolute  top-80 w-[38%] max-h-[350px] flex flex-col items-center overflow-auto bg-white ">
-          {links.map((link, index) => (
-            <li key={index}>
-              {link.platform  && (
-                <a
-                  className="bg-black p-4 rounded-lg flex items-center justify-between w-60 h-12 mb-5"
-                  href={link.url}
-                  target="_blank"
-                  rel='noopener noreferrer'
-                >
-                  {link.platform}
-                </a>
-              )}
-            </li>
-          ))}
+        <ul className="absolute  top-80 w-[38%] max-h-[350px] flex flex-col items-center overflow-y-auto overflow-hidden bg-white rounded-lg m- z-1 ">
+          {links.map((link, index) => {
+            const { color, icon } = getPlatformData(link.platform);
+            return (
+              <li key={index}>
+                {link.platform && (
+                  <a
+                    className={`bg-black p-3 rounded-lg flex items-center  w-60 h-12 mb-5 hover:bg-opacity-80  border-2 border-foreground ${color}`}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span className="mr-2">{icon}</span>
+                    {link.platform}
+                  </a>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </div>
       <div className="bg-white md:w-3/5 w-full rounded-md sm:p-10 p-5">
