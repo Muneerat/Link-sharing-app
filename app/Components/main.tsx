@@ -5,21 +5,8 @@ import {
   HandPhone,
   DashIcon,
   LinkIcon,
-  GitHub,
   Frontend,
-  Twitter,
-  LinkedIn,
-  YouTube,
-  Facebook,
-  Twitch,
-  Dev,
-  Codewars,
-  FreeCodeCamp,
-  GitLab,
-  Hashnode,
-  Stack,
   GitHubWhite,
-  FrontendWhite,
   TwitterWhite,
   LinkedInWhite,
   YouTubeWhite,
@@ -41,12 +28,13 @@ import { InputLabel } from "./Form/inputLabel";
 import options from "../Components/Options";
 import { platform } from "os";
 import { RxValue } from "react-icons/rx";
-import { log } from "console";
+import { ErrorMessage } from "./error";
 
 export const Main = () => {
   const [name, setName] = useState("");
   const [showLinks, setShowLInks] = useState(false);
   const [links, setLinks] = useState<{ platform: string; url: string }[]>([]);
+  const [error, setError] = useState('');
 
   //Add links
   const handleAddLinks = () => {
@@ -76,40 +64,66 @@ export const Main = () => {
     return platformColors[platform] || { color: "bg-gray-300", icon: null };
   };
 
-  // const handleRemoveLinks = (index) => {
-  //   setLinks(links.filter((_, i) => i!== index))
-  //   if (links.length === 0) setShowLInks(false);
-  // }
+  const isValidUrl = (url: string) => {
+    const urlPattern = new RegExp(
+      "^(https?:\\/\\/)?" + // validate http or https
+      "((([a-zd]([a-zd-][a-zd]))\\.?)+[a-z]{2,}|" + // domain name
+      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+      "(\\:\\d+)?(\\/[-a-zd%_.~+])" + // port and path
+      "(\\?[;&a-zd%_.~+=-]*)?" + // query string
+      "(\\#[-a-zd_]*)?$", "i"
+    );
+    return !!urlPattern.test(url);
+  };
 
   const handleLinkChange = (index: number, field: string, value: string) => {
     const updatedLinks = [...links];
-    updatedLinks[index] = { ...updatedLinks[index], [field]: value }; // Update platform or url
-    setLinks(updatedLinks);
+    
+    // Validate the URL field
+    if (field === "url" && !isValidUrl(value)) {
+      console.log("Invalid URL format");
+    } else {
+       // Update platform or url
+      updatedLinks[index] = { ...updatedLinks[index], [field]: value };
+      setLinks(updatedLinks);
+    }
   };
 
-  // const handleChangeLink = (e, index) => {
-  //   const platform = e.target.value;
-  //   setLinks(links.map((link, i) =>
-  //     i === index? {...link, platform} : link
-  //   ))
-  // }
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+  
+    // Check if no links are present
+    // if (links.length === 0) {
+    //   console.log("At least one link is required");
+    //   return;
+    // }
+  
+    // Ensure all platforms and URLs are filled and valid
+    for (let link of links) {
+      if (!link.platform) {
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   console.log(links);
-  // }
+        setError("Please select a platform")
+        console.log("Please select a platform");
 
-  // const handleReset = () => {
-  //   setName("");
-  //   setLinks([]);
-  // }
+        return;
+      }
+      if (!link.url || !isValidUrl(link.url)) {
+        console.log("Please provide a valid URL");
+        return;
+      }
+    }
+  
+    // Ensure unique Stack Overflow link
+    const stackOverflowLinks = links.filter(link => link.platform === "Stack Overflow");
+    if (stackOverflowLinks.length > 1) {
+      console.log("Stack Overflow link can only be used once");
+      return;
+    }
+  
+    // Continue with form submission logic
+    console.log("Form submitted successfully!", links);
+  };
 
-  // const handleToggleLinks = () => {
-  //   setShowLInks(!showLinks);
-  // }
-
-  // const handleCopyLink = (index) => {
-  //   const link = links[index].url;
 
   return (
     <div className="md:flex gap-7 py-2 w-full">
@@ -122,7 +136,7 @@ export const Main = () => {
               <li key={index}>
                 {link.platform && (
                   <a
-                    className={`bg-black p-3 rounded-lg flex items-center  w-60 h-12 mb-5 hover:bg-opacity-80  border-2 border-foreground ${color}`}
+                    className={`bg-blac p-3 rounded-lg flex items-center  w-60 h-12 mb-5 hover:bg-opacity-80  border-2 border-foreground ${color}`}
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -152,7 +166,8 @@ export const Main = () => {
         </Button>
         {showLinks ? (
           /* //Link */
-          <div className=" o min-h-[397px] md:max-h-[660px] lg:h-[450px] w-full md:overflow-auto pb-10 my-2">
+          <form onSubmit={handleSubmit}>
+           <div className=" o min-h-[397px] md:max-h-[660px] lg:h-[450px] w-full md:overflow-auto pb-10 my-2">
             {links.map((link, index) => (
               <div
                 className=" bg-secondary px-4 py-4 my-10 rounded-md "
@@ -181,6 +196,7 @@ export const Main = () => {
                       handleLinkChange(index, "platform", value)
                     }
                   />
+                  {error && <ErrorMessage errorText='Please select a platform' />}
                   <div className="flex items-center my-5 rounded-md py-3 w-full bg-white px-2">
                     <div>
                       <LinkIcon />
@@ -199,7 +215,17 @@ export const Main = () => {
               </div>
             ))}
           </div>
+          <div className="flex justify-end ">
+          <Button
+            className={` text-secondary w-full sm:w-fit bg-primary hover:bg-primary-foreground`}
+          >
+            Save
+          </Button>
+        </div>
+          </form>
+         
         ) : (
+          <>
           <div className=" bg-background p-12 flex flex-col items-center justify-center my-6 ">
             <HandPhone />
             <div className="max-w-xl text-center py-2">
@@ -213,7 +239,6 @@ export const Main = () => {
               </p>
             </div>
           </div>
-        )}
         <div className="flex justify-end ">
           <Button
             className={` text-secondary w-full sm:w-fit ${
@@ -223,6 +248,9 @@ export const Main = () => {
             Save
           </Button>
         </div>
+        </>
+        )}
+      
       </div>
     </div>
   );
