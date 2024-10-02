@@ -17,6 +17,8 @@ import {
   GitLabWhite,
   HashnodeWhite,
   StackWhite,
+  Frontend,
+  ArrowRight,
 } from "../asset/icon";
 import { Button } from "@/components/ui/button";
 import { SelectInput } from "./Form/SelectInput";
@@ -54,6 +56,7 @@ export const Main = () => {
       GitLab: { color: "bg-[#eb4925]", icon: <GitLabWhite /> },
       Hashnode: { color: "bg-[#0330d1]", icon: <HashnodeWhite /> },
       "Stack Overflow": { color: "bg-[#ec7100]", icon: <StackWhite /> },
+      "Frontend Mentor": { color: `bg-white text-red`, icon: <Frontend /> },
     };
     return platformColors[platform] || { color: "bg-gray-300", icon: null };
   };
@@ -122,33 +125,42 @@ export const Main = () => {
   return (
     <div className="md:flex gap-7 py-2 w-full">
         <div className="bg-white md:w-2/5 w-full hidden p-10 rounded-md md:flex justify-center items-center relative z-10">
-      <div className=" relative w-[307px] h-[631px]">
-          <Phone/>
-          <div className="absolute top-16 flex flex-col items-center justify-center w-full "></div>
-          <div className="flex justify-center items-center">
-            <ul className="absolute top-[17rem] w-[90%] max-h-[320px] flex flex-col items-center overflow-y-auto bg-white rounded-lg z-1">
-              {links.map((link, index) => {
-                const { color, icon } = getPlatformData(link.platform);
-                return (
-                  <li key={index}>
-                    {link.platform && (
-                      <a
-                        className={`p-3 rounded-lg flex items-center w-60 h-12 mb-5 hover:bg-opacity-80 border-2 border-foreground ${color}`}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <span className="mr-2">{icon}</span>
-                        {link.platform}
-                      </a>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+        <div className="relative w-[307px] h-[631px]">
+  <Phone />
+  <div className="absolute top-16 flex flex-col items-center justify-center w-full "></div>
+  <div className="flex justify-center items-center">
+    <ul className="absolute top-[17rem] w-[90%] max-h-[320px] flex flex-col items-center overflow-y-auto bg-white rounded-lg z-1">
+      {links.map((link, index) => {
+        const { color, icon } = getPlatformData(link.platform);
+        const isValidLink = link.url && isValidUrl(link.url); 
+        
+        return (
+          <li key={index}>
+            {link.platform && (
+              <a
+                className={`p-3 rounded-lg flex justify-between items-center w-60 h-12 mb-5 hover:bg-opacity-80 border-2 border-foreground ${color} ${
+                  !isValidLink ? "cursor-not-allowed opacity-70" : ""
+                }`}
+                href={isValidLink ? link.url : "#"} 
+                target={isValidLink ? "_blank" : "_self"}
+                rel={isValidLink ? "noopener noreferrer" : ""}
+              >
+                <div className="flex items-center">
+                <span className="mr-2">{icon}</span>
+                {link.platform}
+                </div>
+                <div><ArrowRight /> </div>
+              </a>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</div>
+
         </div>
-      </div>
+    
       <div className="bg-white md:w-3/5 w-full rounded-md sm:p-10 p-5">
         <h1 className="py-3 font-bold text-2xl text-destructive">
           Customize your links
@@ -201,7 +213,7 @@ export const Main = () => {
                       <ErrorMessage errorText={errors.platform[index]} />
                     )}
 
-                    <div className="flex items-center my-5 rounded-md py-3 w-full bg-white px-2">
+                    <div className="flex items-center my-3 rounded-md py-3 w-full bg-white px-2">
                       <div>
                         <LinkIcon />
                       </div>
