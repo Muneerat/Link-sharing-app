@@ -11,9 +11,8 @@ import SignIn from "./Components/signIn";
 
 export default function Home() {
   return (
-    <>
+    <div>
       <SignIn />
-      {/* <Link href="/home" >Home</Link> */}
-    </>
+    </div>
   );
 }

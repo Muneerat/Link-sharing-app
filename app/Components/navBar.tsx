@@ -13,10 +13,10 @@ import {
 } from "../asset/icon";
 
 export const NavBar = () => {
-  const [activeLink, setActiveLink] = useState(false);
+  const [activeLink, setActiveLink] = useState("");
 
-  const handleClick = () => {
-    setActiveLink(true);
+  const handleClick = (link:string) => {
+    setActiveLink(link);
   };
 
   return (
@@ -31,28 +31,28 @@ export const NavBar = () => {
       </div>
       <div className="flex justify-between items-center gap-10">
         <Link
-          href=""
+          href="/link"
           className={`flex items-center gap-1 rounded-md text-border font-bold  ${
-            activeLink
+            activeLink === "link"
               ? "py-3 px-4 bg-secondary text-primary "
               : "hover:text-primary"
           }`}
-          onClick={handleClick}
+          onClick={()=> handleClick("link")}
         >
-          {activeLink ? <LInkHoverIcon /> : <LinkIcon />}
+          {activeLink === "link" ? <LInkHoverIcon /> : <LinkIcon />}
           <p className="sm:flex hidden">Links</p>
         </Link>
         <div className="hover:text-primary">
           <Link
-            href=""
+            href="/profile"
             className={`flex items-center gap-1 rounded-md text-border font-bold  ${
-              activeLink
+              activeLink === 'profile'
                 ? "py-3 px-4 bg-secondary text-primary "
                 : "hover:text-primary"
             }`}
-            onClick={handleClick}
+            onClick={() => handleClick("profile")}
           >
-            {activeLink ? <ProfileHoverIcon /> : <ProfileIcon />}
+            {activeLink === "profile" ? <ProfileHoverIcon /> : <ProfileIcon />}
             <p className="sm:flex hidden">Profile Details</p>
           </Link>
         </div>

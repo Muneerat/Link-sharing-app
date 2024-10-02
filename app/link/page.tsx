@@ -1,13 +1,13 @@
 import React from 'react'
 import { NavBar } from '../Components/navBar'
 import { Main } from '../Components/main'
+import  Layout  from '../Components/layout'
 
 const Dashboard = () => {
   return (
-    <div className='bg-background w-full h-screen py-8 sm:px-10'>
-      <NavBar />
+    <Layout>
       <Main />
-    </div>
+    </Layout>
   )
 }
 
