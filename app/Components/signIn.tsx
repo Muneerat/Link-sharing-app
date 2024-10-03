@@ -53,8 +53,10 @@ export default function SignIn() {
         password: "",
       });
       //  Router.push("/home");
-        redirect('/')
+      //   redirect('/')
       // router.push("/home");
+        // Navigate to home page on successful sign-up
+        //router.push('/link');
     }
     return redirect('/')
   };

@@ -65,7 +65,7 @@ export default function SignUp() {
       });
       
       // Navigate to home page on successful sign-up
-      router.push('/dashboard');
+      router.push('/link');
     }
   };
 
