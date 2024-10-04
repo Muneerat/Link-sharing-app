@@ -26,6 +26,7 @@ import { InputLabel } from "../Components/Form/inputLabel";
 import options from "../Components/Options";
 import { ErrorMessage } from "../Components/error";
 import Layout from "../Components/layout";
+import { ImageUpload } from "../Components/imageUpload";
 
 const Profile = () => {
   const [name, setName] = useState("");
@@ -35,6 +36,7 @@ const Profile = () => {
     platform: [],
     url: [],
   });
+  const [file, setFile] = useState(null)
 
   // Add links
   // const handleAddLinks = () => {
@@ -170,7 +172,6 @@ const Profile = () => {
           <p className="text-border pb-10">
             Add your details to create a personal touch to your profile.
           </p>
-
           {/* {showLinks ? (
           <form onSubmit={handleSubmit}>fl
             <div className="min-h-[397px] md:max-h-[660px] lg:h-[450px] w-full md:overflow-auto pb-10 my-2">
@@ -240,16 +241,12 @@ const Profile = () => {
             <div className=" w-2/6">
               <p>Profile picture</p>
             </div>
-            <div className=" w-2/6 bg-black m-3 rounded-md bg-secondary text-primary h-3/6 py-5 items-center flex flex-col justify-center">
-              <input type="file" className=" opacity-0 cursor-pointer" />
-              <div>
-                <h1 className="font-bold text-xl ">+ Upload Image</h1>
-              </div>
-            </div>
+           <ImageUpload setFile={setFile} files={file } className=''/>
             <div className=" w-3/6 ">
               Image must be below 1024x1024px. <br></br> Use PNG or JPG format.
             </div>
           </div>
+          h-f
           <div className="flex justify-end">
             <Button className="text-secondary w-full sm:w-fit bg-primary hover:bg-primary-foreground">
               Save
