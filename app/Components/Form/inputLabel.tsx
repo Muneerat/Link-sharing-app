@@ -6,6 +6,6 @@ interface Props{
 
 export const InputLabel = ({text}:Props) => {
   return (
-   <label className='p-1 text-border'>{text}<sup>*</sup></label>
+   <label className='p-1 text-border'>{text}</label>
   )
 }

@@ -40,7 +40,7 @@ export const ImageUpload = ({ setFile, files, className }: imageProps) => {
   const onDragLeave = () => {
     setStyles("");
   };
-  console.log(files);
+  // console.log(files);
   return (
     <div
       className={`w-2/6 bg-black m-3 rounded-md bg-secondary text-primary h-48 py-2 items-center flex flex-col justify-center cursor-pointer relative ${styles} ${className}`}

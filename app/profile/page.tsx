@@ -30,12 +30,48 @@ import { ImageUpload } from "../Components/imageUpload";
 import Input from "../Components/Form/Input";
 import { CiMail } from "react-icons/ci";
 import MainInput from "../Components/Form/mainInput";
+import { log } from "console";
 
 const Profile = () => {
   const [profileError, setProfileError] = useState({
-    name: "",
-    email: '' ,
-  })
+    firstName: "",
+    lastName: "",
+    email: "",
+  });
+  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+
+  const handleValidation = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setProfileError({ firstName: "", lastName: "", email: "" });
+    const newErrors = {
+      firstName: "",
+      lastName: "",
+      email: "",
+    };
+    if (!firstName.trim()) {
+      newErrors.firstName = "First name is required";
+    }
+
+    if (!lastName.trim()) {
+      newErrors.lastName = "Last name is required";
+    }
+
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    }
+
+    if (newErrors.firstName || newErrors.lastName || newErrors.email) {
+      setProfileError(newErrors);
+    } else {
+      // Submit form
+      setEmail("");
+      setFirstName("");
+      setLastName("");
+      setProfileError({ firstName: "", lastName: "", email: "" });
+    }
+  };
   const [name, setName] = useState("");
   const [showLinks, setShowLinks] = useState(false);
   const [links, setLinks] = useState<{ platform: string; url: string }[]>([]);
@@ -132,16 +168,16 @@ const Profile = () => {
 
     console.log("Form submitted successfully!", links);
   };
-  const handleValidation = (event: FormEvent) => {
-    event.preventDefault();
-    const newErrors = {
-      name: '',
-      email: '',
-    }
-    if(!name.trim()){
-      newErrors.name = "Name is required"
-    }
-  }
+  // const handleValidation = (event: FormEvent) => {
+  //   event.preventDefault();
+  //   const newErrors = {
+  //     name: '',
+  //     email: '',
+  //   }
+  //   if(!name.trim()){
+  //     newErrors.name = "Name is required"
+  //   }
+  // }
 
   return (
     <Layout>
@@ -185,10 +221,10 @@ const Profile = () => {
         </div>
 
         <div className="bg-white md:w-3/5 w-full rounded-md sm:p-10 p-5">
-          <h1 className="py-3 font-bold text-2xl text-destructive">
+          <h1 className=" font-bold text-2xl text-destructive">
             Profile Details
           </h1>
-          <p className="text-border pb-10">
+          <p className="text-border pb-1">
             Add your details to create a personal touch to your profile.
           </p>
           {/* {showLinks ? (
@@ -256,7 +292,7 @@ const Profile = () => {
           </form>
         ) : (
           <> */}
-          <div className="bg-background p-5 mx-auto flex  items-center justify-center my-6 text-border">
+          <div className="bg-background p-5 mx-auto rounded-md flex  items-center justify-center my- text-border">
             <div className=" w-2/6">
               <p>Profile picture</p>
             </div>
@@ -266,25 +302,59 @@ const Profile = () => {
             </div>
           </div>
           <form onSubmit={handleValidation}>
-            <div className=" bg-background rounded-full p-5 w-full">
-              <div className="flex justify-between">
-                <InputLabel text="First name" />
-                <MainInput
-                  onChange={handleChange}
-                  placeholder="e.g. alex@email.com"
-                  value={name}
-                  id="name"
-                  type="name"
-                  className={`w-4/6`}
-                />
+            <div className=" bg-background rounded-md p-5 w-full my-4">
+              <div className="flex justify-between my-3">
+                <InputLabel text="First name*" />
+                <div className="w-4/6">
+                  <MainInput
+                    onChange={(e) => setFirstName(e.target.value)}
+                    placeholder="e.g. John"
+                    value={firstName}
+                    id="name"
+                    type="name"
+                    className={`w-full`}
+                  />
+                  <ErrorMessage errorText={profileError.firstName} />
+                </div>
+              </div>
+              <div className="flex justify-between my-3">
+                <InputLabel text="Last name*" />
+                <div className={`w-4/6`}>
+                  <MainInput
+                    onChange={(e) => setLastName(e.target.value)}
+                    placeholder="e.g. Appleseed"
+                    value={lastName}
+                    id="name"
+                    type="name"
+                    className={`w-full`}
+                  />
+                  <ErrorMessage errorText={profileError.lastName} />
+                </div>
+              </div>
+              <div className="flex justify-between my-3">
+                <InputLabel text="Email" />
+                <div className="w-4/6">
+                  <MainInput
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="e.g. email@example.com"
+                    value={email}
+                    id="email"
+                    type="email"
+                    className={`w-full`}
+                  />
+                  <ErrorMessage errorText={profileError.email} />
+                </div>
               </div>
             </div>
-          <div className="flex justify-end">
-            <Button className="text-secondary w-full sm:w-fit bg-primary hover:bg-primary-foreground">
-              Save
-            </Button>
-          </div>
+            <div className=" bg-[#d9d9d9] h-0.5 w-full my-6"></div>
+            <div className="flex justify-end">
+              <Button className="text-secondary w-full sm:w-fit bg-primary hover:bg-primary-foreground">
+                Save
+              </Button>
+              {/* <button>Save</button> */}
+            </div>
           </form>
+
           {/* </>
         )} */}
         </div>

@@ -18,7 +18,7 @@ const MainInput: FC<InputComponentProps> = ({ placeholder,id,className,value, on
   return (
   
       <input
-        className={`border-2 border-foreground outline-none rounded-lg p-2 md:pl-10 pl-6 focus:border-primary ${className}`}
+        className={`border-2 border-foreground outline-none rounded-lg p-3 md:pl-10 pl-1 focus:border-primary text-black  ${className}`}
         type={type}
         onChange={handleChange}
         placeholder={placeholder}
