@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import {
   Phone,
   HandPhone,
@@ -27,8 +27,15 @@ import options from "../Components/Options";
 import { ErrorMessage } from "../Components/error";
 import Layout from "../Components/layout";
 import { ImageUpload } from "../Components/imageUpload";
+import Input from "../Components/Form/Input";
+import { CiMail } from "react-icons/ci";
+import MainInput from "../Components/Form/mainInput";
 
 const Profile = () => {
+  const [profileError, setProfileError] = useState({
+    name: "",
+    email: '' ,
+  })
   const [name, setName] = useState("");
   const [showLinks, setShowLinks] = useState(false);
   const [links, setLinks] = useState<{ platform: string; url: string }[]>([]);
@@ -36,7 +43,9 @@ const Profile = () => {
     platform: [],
     url: [],
   });
-  const [file, setFile] = useState(null)
+  const [file, setFile] = useState(null);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {};
 
   // Add links
   // const handleAddLinks = () => {
@@ -123,6 +132,16 @@ const Profile = () => {
 
     console.log("Form submitted successfully!", links);
   };
+  const handleValidation = (event: FormEvent) => {
+    event.preventDefault();
+    const newErrors = {
+      name: '',
+      email: '',
+    }
+    if(!name.trim()){
+      newErrors.name = "Name is required"
+    }
+  }
 
   return (
     <Layout>
@@ -241,17 +260,31 @@ const Profile = () => {
             <div className=" w-2/6">
               <p>Profile picture</p>
             </div>
-           <ImageUpload setFile={setFile} files={file } className=''/>
+            <ImageUpload setFile={setFile} files={file} className="" />
             <div className=" w-3/6 ">
               Image must be below 1024x1024px. <br></br> Use PNG or JPG format.
             </div>
           </div>
-          h-f
+          <form onSubmit={handleValidation}>
+            <div className=" bg-background rounded-full p-5 w-full">
+              <div className="flex justify-between">
+                <InputLabel text="First name" />
+                <MainInput
+                  onChange={handleChange}
+                  placeholder="e.g. alex@email.com"
+                  value={name}
+                  id="name"
+                  type="name"
+                  className={`w-4/6`}
+                />
+              </div>
+            </div>
           <div className="flex justify-end">
             <Button className="text-secondary w-full sm:w-fit bg-primary hover:bg-primary-foreground">
               Save
             </Button>
           </div>
+          </form>
           {/* </>
         )} */}
         </div>
