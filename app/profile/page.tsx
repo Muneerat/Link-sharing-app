@@ -66,9 +66,9 @@ const Profile = () => {
       setProfileError(newErrors);
     } else {
       // Submit form
-      setEmail("");
-      setFirstName("");
-      setLastName("");
+      // setEmail("");
+      // setFirstName("");
+      // setLastName("");
       setProfileError({ firstName: "", lastName: "", email: "" });
     }
   };
