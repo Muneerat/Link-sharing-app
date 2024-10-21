@@ -1,4 +1,5 @@
 'use client'
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { ChangeEvent, FormEvent, useState } from "react";
 import Image from "next/image";
 import Logo from "/app/asset/logo.png";
@@ -10,9 +11,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation"; 
 import { ErrorMessage } from "@/app/Components/error";
 
+
+
 export default function SignUp() {
   const router = useRouter();  
-  
+  const supabase = createClientComponentClient()
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -23,14 +26,14 @@ export default function SignUp() {
     confirmPassword: ""
   });
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange =  (event: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
     if (id === "name") setName(value);
     if (id === "password") setPassword(value);
     if (id === "confirmPassword") setConfirmPassword(value);
   };
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     const newErrors = {
@@ -54,18 +57,43 @@ export default function SignUp() {
     if (newErrors.name || newErrors.password || newErrors.confirmPassword) {
       setErrors(newErrors);
     } else  {
+        try{
+          const {error } = await supabase.auth.signUp({
+            email: name,
+            password: password
+          })
+          if (error){
+            setErrors((prevErrors) => ({
+              ...prevErrors,
+              name: error.message,
+            }));
+          }else{
+           
+            setName("");
+            setPassword("");
+            setConfirmPassword("");
+            setErrors({
+              name: "",
+              password: "",
+              confirmPassword: ""
+            });
+            router.push('/link');
+          }
+        }catch(error){
+          console.error("sign up failed:", error);
+        }
       // Clear form
-      setName("");
-      setPassword("");
-      setConfirmPassword("");
-      setErrors({
-        name: "",
-        password: "",
-        confirmPassword: ""
-      });
+      // setName("");
+      // setPassword("");
+      // setConfirmPassword("");
+      // setErrors({
+      //   name: "",
+      //   password: "",
+      //   confirmPassword: ""
+      // });
       
       // Navigate to home page on successful sign-up
-      router.push('/link');
+      // router.push('/link');
     }
   };
 

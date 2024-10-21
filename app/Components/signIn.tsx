@@ -8,13 +8,16 @@ import { HiLockClosed } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { useRouter } from "next/router";
 import { ErrorMessage } from "./error";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation"; 
 
 export default function SignIn() {
   //  const router = useRouter(); 
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const supabase = createClientComponentClient()
+  const router = useRouter();  
 
   const [errors, setErrors] = useState({
     name: "" as string,
@@ -27,7 +30,7 @@ export default function SignIn() {
     if (id === "password") setPassword(value);
   };
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     // redirect('/signup')
     const newErrors = {
@@ -45,20 +48,57 @@ export default function SignIn() {
 
     if (newErrors.name || newErrors.password) {
       setErrors(newErrors);
-    } else  {
-      setName("");
-      setPassword("");
-      setErrors({
-        name: "",
-        password: "",
-      });
-      //  Router.push("/home");
-      //   redirect('/')
-      // router.push("/home");
-        // Navigate to home page on successful sign-up
-        //router.push('/link');
-    }
-    return redirect('/')
+    }else  {
+      try{
+        const {error } = await supabase.auth.signInWithPassword({
+          email: name,
+          password: password
+        })
+        if (error){
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            name: error.message,
+          }));
+        }else{
+         
+          setName("");
+          setPassword("");
+          setErrors({
+            name: "",
+            password: "",
+          });
+           router.push('/link');
+        }
+      }catch(error){
+        console.error("sign In failed:", error);
+      }
+    // Clear form
+    // setName("");
+    // setPassword("");
+    // setConfirmPassword("");
+    // setErrors({
+    //   name: "",
+    //   password: "",
+    //   confirmPassword: ""
+    // });
+    
+    // Navigate to home page on successful sign-up
+    // router.push('/link');
+  }
+    // } else  {
+    //   setName("");
+    //   setPassword("");
+    //   setErrors({
+    //     name: "",
+    //     password: "",
+    //   });
+    //   //  Router.push("/home");
+    //   //   redirect('/')
+    //   // router.push("/home");
+    //     // Navigate to home page on successful sign-up
+    //     //router.push('/link');
+    // }
+    // return redirect('/')
   };
 
   return (
